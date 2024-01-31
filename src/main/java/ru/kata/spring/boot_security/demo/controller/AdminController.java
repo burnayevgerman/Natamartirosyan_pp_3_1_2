@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,10 +18,14 @@ public class AdminController {
     private final UserServiceImpl userService;
     private final RoleServiceImpl roleService;
 
+    // TODO: add field for the PasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public AdminController(UserServiceImpl userService, RoleServiceImpl roleService) {
+    public AdminController(UserServiceImpl userService, RoleServiceImpl roleService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/admin")
@@ -50,15 +55,9 @@ public class AdminController {
             model.addAttribute("roles", roleService.getListOfRoles());
             return "new";
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.addUser(user);
         return "redirect:/admin";
-    }
-
-    @RequestMapping(value = "/admin/edit")
-    public String editUserById(@RequestParam(value = "id") Long id, Model model) {
-        model.addAttribute("user", userService.findUserById(id));
-        model.addAttribute("roles", roleService.getListOfRoles());
-        return "edit";
     }
 
     @PostMapping("/admin/save")
@@ -71,6 +70,13 @@ public class AdminController {
         }
         userService.editUserById(user);
         return "redirect:/admin";
+    }
+
+    @RequestMapping(value = "/admin/edit")
+    public String editUserById(@RequestParam(value = "id") Long id, Model model) {
+        model.addAttribute("user", userService.findUserById(id));
+        model.addAttribute("roles", roleService.getListOfRoles());
+        return "edit";
     }
 
     @GetMapping(value = "/admin/delete")

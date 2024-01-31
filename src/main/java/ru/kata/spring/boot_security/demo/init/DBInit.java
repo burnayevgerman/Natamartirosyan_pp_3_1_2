@@ -34,7 +34,7 @@ public class DBInit {
         roleService.addRole(userRole);
 
         userService.addUser(new User("Luka", "Modric", 1985,
-                "lukam@rmcf.com", "$2a$12$dr5y9Is2wyv6CbjvDNnOiOQEKRcbxtIMJpePoA69xX/89S41MdMG.", List.of(adminRole)));
+                "lukam@rmcf.com", "$2a$12$XrNqfMmKEbcMtYSSHJ4.2.NWfzTsUwvz5cTIlE42mUEej4tgGzAjK", List.of(adminRole)));
 
         userService.addUser(new User("Marcelo", "Vieira", 1988,
                 "marcelo@rmcf.com", "$2a$12$/h3XkINV1cE3vN0QoWRQF.Ir5jZVk02DSUKogesMScz4bPYSWFZiW", List.of(userRole)));

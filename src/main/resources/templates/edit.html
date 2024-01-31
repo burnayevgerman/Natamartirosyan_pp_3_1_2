@@ -6,6 +6,9 @@
 </head>
 <body>
 <form th:method="PATCH" th:action="@{/admin/save}" th:object="${user}">
+<!--    TODO: The hidden input -->
+    <input type="hidden" th:field="*{id}" th:value="${user.getId()}">
+
     <label for="name">Name</label>
     <input id="name" th:field="*{name}" type="text"/>
     <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</div>
@@ -25,6 +28,11 @@
     <label for="password">Password</label>
     <input type="text" th:field="*{password}" id="password"/>
     <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</div>
+    <br>
+    <!-- TODO: add the field for edit the roles-->
+    <select th:name="roles" th:value="*{roles}">
+        <option th:each="role:${roles}" th:value="${role.id}" th:text="${role.role}" selected/>
+    </select>
     <br>
     <input type="submit" value="Save user">
 </form>
